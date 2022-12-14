@@ -1,5 +1,7 @@
-@import url("photographer.css");
-
+:root {
+    --primary-color: #901C1C;
+    --secondary-color: #DB8876;
+}
 body {
     font-family: "DM Sans", sans-serif;
     margin: 0;
@@ -15,7 +17,7 @@ header {
 }
 
 h1 {
-    color: #901C1C;
+    color: var(--primary-color);
     margin-right: 100px;
 }
 
@@ -30,11 +32,21 @@ p {
     margin-left: 100px;
 }
 
+.photograph-portrait{
+    height: 250px;
+    width: 250px;
+    object-fit: cover;
+    -webkit-mask: radial-gradient(circle at 50% 54%,#0000, rgba(0, 0, 0, 1) 40px,rgba(0, 0, 0, 0) 107px),
+    radial-gradient(circle at center,rgba(255,255,255,1) 100px, rgba(255,255,255,0) 100px, rgba(255,255,255,0) 100%);
+    mask: radial-gradient(circle at 50% 54%,#0000, rgba(0, 0, 0, 1) 40px,rgba(0, 0, 0, 0) 107px),
+    radial-gradient(circle at center,rgba(255,255,255,1) 100px, rgba(255,255,255,0) 100px, rgba(255,255,255,0) 100%);
+}
+
 .photographer_section {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 70px;
-    margin-top: 100px;
+    gap: 50px;
+    margin-top: 50px;
 }
 .photographer-card__link {
     justify-self: center;
@@ -45,21 +57,11 @@ p {
     text-decoration: none;
 }
 .photographer-card__name {
-    color: #D3573C;
+    color: var(--secondary-color);
     font-size: 36px;
     font-weight: 400;
     line-height: 47px;
-    margin: 20px 0 0;
-}
-.photographer-card__img{
-
-}
-.photographer-card__img img{
-    height: 250px;
-    width: 250px;
-    object-fit: cover;
-    -webkit-mask: radial-gradient(circle at 50% 54%,#0000, rgba(0, 0, 0, 0.8) 40px,rgba(0, 0, 0, 0) 105px),
-    radial-gradient(circle at center,rgba(255,255,255,1) 100px, rgba(255,255,255,0) 100px, rgba(255,255,255,0) 100%);
+    margin: -10px 0 0;
 }
 .photographer-card__price {
     font-size: 9px;
@@ -71,7 +73,7 @@ p {
     margin: 0 0 4px;
 }
 .photographer-card__location {
-    color: #901C1C;
+    color: var(--primary-color);
     font-size: 13px;
     margin: 0 0 4px;
 }
