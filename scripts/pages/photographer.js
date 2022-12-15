@@ -10,7 +10,7 @@ async function getPhotographer(id) {
             }})
         .then(data => {
             let photographerData = data.photographers.find(photographer => photographer.id == id)
-            photographerData.media = data.media.filter(media => media.photographerId == id)
+            photographerData.medias = data.media.filter(media => media.photographerId == id)
             return photographerData
 
         })
@@ -34,44 +34,58 @@ function displayHeaderData(photographer) {
     likes.innerHTML = photographerModel.likes + ' <img src="assets/icons/heart.svg" alt="likes">'
 }
 
-async function handleFilterChange(medias, FilterInstance) {
-    FilterInstance.filterChange
-        .then(filter => {
-            displayMedias(medias, filter)
-            handleFilterChange(medias, FilterInstance)
-        })
-}
-
-function displayMedias(medias, filter) {
-    medias.sort((a, b) => {
-        if(a[filter] > b[filter]) {
-            return 1
-        }
-        if(a[filter] < b[filter]) {
-            return -1
-        }
-        return 0
+function mediasComponent(photographer) {
+    const medias = photographer.medias.map(media => {
+        media
+        media.photographerName = photographer.name.split(' ')[0]
+        const mediaFactory = new MediaFactory(media)
+        media.cardDOM = mediaFactory.createDOM()
+        return media
+        
     })
-    if(filter !== 'title') {
-        medias.reverse()
+    const filterComponent = new FilterSortBy('.sort-filter__menu', '.sort-filter__filter')
+    let filter = filterComponent.filterValue
+    displayMedias()
+    handleFilterChange()
+
+    function handleFilterChange() {
+        filterComponent.filterChange
+            .then(() => {
+                filter = filterComponent.filterValue
+                displayMedias()
+                handleFilterChange()
+            })
     }
+    
+    function displayMedias() {
+        const wrapper = document.querySelector('.photograph-medias__wrapper') 
 
+        medias.sort((a, b) => {
+            if(a[filter] > b[filter]) {
+                return 1
+            }
+            if(a[filter] < b[filter]) {
+                return -1
+            }
+            return 0
+        })
+        if(filter !== 'title') {
+            medias.reverse()
+        }
 
-    const wrapper = document.querySelector('.photograph-medias')
-    wrapper.querySelectorAll('p').forEach(p => p.remove())
-    medias.forEach(media => {
-        const p = document.createElement('p')
-        p.textContent = media.date + ' /likes:' + media.likes + ' /title:' + media.title
-        wrapper.appendChild(p)
-    })
+        wrapper.innerHTML = ''
+        medias.forEach(media => {
+            wrapper.appendChild(media.cardDOM)
+        })
+    }
 }
+
 
 async function init() {
     const photographer = await getPhotographer(photographerID)
     displayHeaderData(photographer)
-   const filters = new FilterSortBy('.sort-filter__menu', '.sort-filter__filter')
-   displayMedias(photographer.media, filters.filterValue)
-   handleFilterChange(photographer.media, filters)
+    mediasComponent(photographer)
+
 
 }
 

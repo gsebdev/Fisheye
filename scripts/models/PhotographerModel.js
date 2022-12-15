@@ -11,9 +11,9 @@ class PhotographerModel {
         this._tagline = data.tagline
         this._price = data.price
         this._portrait = data.portrait
-        this._picture = `assets/photographers/${this._portrait}`
-        if(data.media) {
-            this._media = data.media
+        this._picture = `assets/photographers/thumbnails/${this._portrait}`
+        if(data.medias) {
+            this._medias = data.medias
         }
     }
     get id() {
@@ -40,12 +40,12 @@ class PhotographerModel {
     get picture() {
         return this._picture
     }
-    get media() {
-        return this._media ? this._media : []
+    get medias() {
+        return this._medias ? this._medias : []
     }
     get likes() {
-        if(this._media) {
-            return this._media.reduce((likes, media) => likes + media.likes, 0)
+        if(this._medias) {
+            return this._medias.reduce((likes, media) => likes + media.likes, 0)
         }
     }
     

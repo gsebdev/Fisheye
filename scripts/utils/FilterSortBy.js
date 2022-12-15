@@ -14,12 +14,14 @@ class FilterSortBy {
         this._filters.forEach(filter => {
             filter.addEventListener('click', this.handleFilterClick.bind(this))
         })
+        document.querySelector('.sort-filter__dropdown-icon').addEventListener('click', this.handleFilterClick.bind(this))
     }
     handleFilterClick(e) {
         if(this._isExpanded) {
             const clickedFilter = e.target
-            
-            clickedFilter.getAttribute('data-selected') != 'true' ? 
+            const selected = clickedFilter.getAttribute('data-selected')
+
+            selected === 'false' ? 
                 this.switchSelectedFilter(clickedFilter) : 
                 this.closeFilterMenu()
                 
