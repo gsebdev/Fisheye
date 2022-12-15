@@ -13,7 +13,7 @@
       <img src="assets/images/logo.png" class="logo" />
     </header>
     <main id="main">
-      <div class="photograph-header">
+      <section class="photograph-header">
         <div class="photograph-header__text-container">
           <h1></h1>
           <p class="photograph-header__location"></p>
@@ -25,8 +25,22 @@
           <span class="photograph-header__likes"></span>
           <span class="photograph-header__price"></span>
         </div>
-
-      </div>
+      </section>
+      <section class="photograph-medias">
+        <div class="sort-filter">
+          <span class="sort-filter__text">Trier par</span>
+          <div class="sort-filter__menu">
+            <div class="sort-filter__dropdown-icon">
+              <img src="assets/icons/arrow_up.svg" alt="">
+            </div>
+              <ul>
+                <li data-value="likes" data-selected="true" class="sort-filter__filter">Popularité</li>
+                <li data-value="date" data-selected="false" class="sort-filter__filter">Date</li>
+                <li data-value="title" data-selected="false" class="sort-filter__filter">Titre</li>
+              </ul>
+            </div>
+        </div>
+      </section>
     </main>
     <div id="contact_modal">
 			<div class="modal">
@@ -46,5 +60,6 @@
     <script src="scripts/models/PhotographerModel.js"></script>
     <script src="/scripts/pages/photographer.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
+    <script src="/scripts/utils/FilterSortBy.js"></script>
   </body>
 </html>
