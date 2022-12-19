@@ -10,6 +10,8 @@ class VideoModel {
         this._src = `assets/photographers/${video.photographerName}/${video.video}`
         this._likes = video.likes
         this._date = video._date
+        this._liked = false
+        this._triggerLikesChange
     }
     get id() {
         return this._id
@@ -29,9 +31,15 @@ class VideoModel {
     get date() {
         return this._date
     }
+    get likesChange() {
+        return new Promise(resolve => {
+            this._triggerLikesChange = resolve
+        })
+    }
 
-    createDOM() {
+    getCardDOM() {
         const article = document.createElement('article')
+        article.id = this._id
         article.className = 'media-card'
 
         const videoContainer = document.createElement('div')
@@ -53,8 +61,25 @@ class VideoModel {
 
         const likes = document.createElement('span')
         const icon = document.createElement('span')
+        icon.className = 'heart-icon'
         likes.className = 'media-card__likes'
         likes.textContent = this._likes
+        likes.append(icon)
+        this._liked === true ? likes.setAttribute('data-liked', true) : likes.setAttribute('data-liked', false)
+        likes.addEventListener('click', () => {
+            if(this._liked === true) {
+                
+                this._likes -= 1
+                this._liked = false
+                likes.setAttribute('data-liked', false)
+            } else {
+                this._likes += 1
+                this._liked = true
+                likes.setAttribute('data-liked', true)
+            }
+            likes.childNodes[0].textContent = this._likes
+            this._triggerLikesChange()
+        })
         
         videoContainer.appendChild(video)
         likes.append(icon)
@@ -63,5 +88,19 @@ class VideoModel {
 
         return article
 
+    }
+    getMediaDOM() {
+        const video = document.createElement('video')
+        video.controls = true
+        video.autoplay = true
+        video.muted = true
+        video.className = 'photograph-media'
+
+        const source = document.createElement('source')
+        source.src = this._src
+        source.type = 'video/mp4'
+        video.append(source)
+
+        return video
     }
 }

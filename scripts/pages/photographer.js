@@ -1,5 +1,3 @@
-const photographerID = new URL(document.location).searchParams.get('id');
-
 async function getPhotographer(id) {
     return fetch('../../data/photographers.json')
         .then(res => {
@@ -17,8 +15,7 @@ async function getPhotographer(id) {
         .catch(error => console.log('erreur de récupération des données ', error))
 }
 
-function displayHeaderData(photographer) {
-    const photographerModel = new PhotographerModel(photographer)
+function displayHeaderData(photographerModel, mediasComponent) {
     const title = document.querySelector('h1')
     const location = document.querySelector('.photograph-header__location')
     const tagline = document.querySelector('.photograph-header__tagline')
@@ -31,60 +28,86 @@ function displayHeaderData(photographer) {
     tagline.textContent = photographerModel.tagline
     portrait.src = photographerModel.picture
     price.textContent = photographerModel.price + '€ / jour'
-    likes.innerHTML = photographerModel.likes + ' <img src="assets/icons/heart.svg" alt="likes">'
+    
+    function displayPhotographerLikes() {
+        likes.childNodes[0].textContent = photographerModel.likes
+        handleMediasLikesChange()
+    } 
+
+    function handleMediasLikesChange() {
+       mediasComponent.photographerLikesChange.then(() => displayPhotographerLikes())
+        
+    }
+    displayPhotographerLikes()
 }
 
-function mediasComponent(photographer) {
-    const medias = photographer.medias.map(media => {
-        media
-        media.photographerName = photographer.name.split(' ')[0]
-        const mediaFactory = new MediaFactory(media)
-        media.cardDOM = mediaFactory.createDOM()
-        return media
+class MediasComponent {
+    constructor(photographerModel) {
+        this._filterComponent = new FilterSortBy('.sort-filter__menu', '.sort-filter__filter')
+        this._filter = this._filterComponent.filterValue
+        this._triggerLikesChange
+        this._photographerModel = photographerModel
+        this._photographerModel.medias = photographerModel.medias.map(media => {
+            media.photographerName = photographerModel.name.split(' ')[0]
+            media = new MediaFactory(media)
+            media.likesChange.then(() => this.handleMediaLikesChange(media))
+            return media
+        })      
+    }
+    handleMediaLikesChange(media) {
+        this._triggerLikesChange()
+        media.likesChange.then(() =>this.handleMediaLikesChange(media))
         
-    })
-    const filterComponent = new FilterSortBy('.sort-filter__menu', '.sort-filter__filter')
-    let filter = filterComponent.filterValue
-    displayMedias()
-    handleFilterChange()
-
-    function handleFilterChange() {
-        filterComponent.filterChange
+    }
+    handleFilterChange() {
+        this._filterComponent.filterChange
             .then(() => {
-                filter = filterComponent.filterValue
-                displayMedias()
-                handleFilterChange()
+                this._filter = this._filterComponent.filterValue
+                this.renderMedias()   
             })
+    } 
+    get photographerLikesChange() {
+        return new Promise(resolve => this._triggerLikesChange = resolve)
     }
     
-    function displayMedias() {
+    
+    renderMedias() {
         const wrapper = document.querySelector('.photograph-medias__wrapper') 
+        
+        wrapper.classList.add('loading')
 
-        medias.sort((a, b) => {
-            if(a[filter] > b[filter]) {
+        this._photographerModel.medias.sort((a, b) => {
+            if(a[this._filter] > b[this._filter]) {
                 return 1
             }
-            if(a[filter] < b[filter]) {
+            if(a[this._filter] < b[this._filter]) {
                 return -1
             }
             return 0
         })
-        if(filter !== 'title') {
-            medias.reverse()
+        if(this._filter !== 'title') {
+            this._photographerModel.medias.reverse()
         }
-
-        wrapper.innerHTML = ''
-        medias.forEach(media => {
-            wrapper.appendChild(media.cardDOM)
-        })
+        setTimeout(() => {
+            wrapper.innerHTML = ''
+            this._photographerModel.medias.forEach(media => {
+                const cardDOM = media.getCardDOM()
+                cardDOM.querySelector('.media-card__media-container').addEventListener('click', () => new Lightbox(media.id, this._photographerModel.medias))
+                wrapper.appendChild(cardDOM)
+            })}, 200)
+        setTimeout(() => {wrapper.classList.remove('loading')}, 500)
+        this.handleFilterChange()
     }
 }
 
 
+
 async function init() {
-    const photographer = await getPhotographer(photographerID)
-    displayHeaderData(photographer)
-    mediasComponent(photographer)
+    const photographerID = new URL(document.location).searchParams.get('id');
+    const photographerModel = new PhotographerModel(await getPhotographer(photographerID))
+    const mediasComponent = new MediasComponent(photographerModel)
+    displayHeaderData(photographerModel, mediasComponent)
+    mediasComponent.renderMedias()
 
 
 }

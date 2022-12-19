@@ -14,8 +14,7 @@
 
         photographers.forEach((photographer) => {
             const photographerModel = new PhotographerModel(photographer);
-            const Template = new PhotographerCard(photographerModel);
-            photographersSection.appendChild(Template.getPhotographerCard());
+            photographersSection.appendChild(photographerModel.getPhotographerCard());
         });
     };
 

@@ -20,16 +20,11 @@ class FilterSortBy {
         if(this._isExpanded) {
             const clickedFilter = e.target
             const selected = clickedFilter.getAttribute('data-selected')
-
             selected === 'false' ? 
                 this.switchSelectedFilter(clickedFilter) : 
                 this.closeFilterMenu()
-                
-
         } else {
-
             this.openFilterMenu()
-
         }
     }
     switchSelectedFilter(newFilterElement) {

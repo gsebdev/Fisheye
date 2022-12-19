@@ -48,5 +48,44 @@ class PhotographerModel {
             return this._medias.reduce((likes, media) => likes + media.likes, 0)
         }
     }
+    set medias(medias) {
+        this._medias = medias
+    }
+
+    getPhotographerCard() {
+        
+        const article = document.createElement( 'article' )
+        article.className = 'photographer-card'
+
+        const link = document.createElement('a')
+        link.className = 'photographer-card__link'
+        link.href =  `photographer.html?id=${this._id}`
+      
+
+        const img = document.createElement('img')
+        img.src = this._picture
+        img.className = 'photograph-portrait'
+
+        const h2 = document.createElement( 'h2')
+        h2.className = 'photographer-card__name'
+        h2.textContent = this._name
+
+        const location = document.createElement('p')
+        location.className = 'photographer-card__location'
+        location.textContent = this._country + ', ' + this._city
+
+        const tagLineEl = document.createElement('p')
+        tagLineEl.className = 'photographer-card__tagline'
+        tagLineEl.textContent = this._tagline
+
+        const priceEl = document.createElement('p')
+        priceEl.className = 'photographer-card__price'
+        priceEl.textContent = this._price + '€/jour'
+
+        link.append(img, h2, location, tagLineEl, priceEl);
+        article.append(link)
+
+        return (article)
+    }
     
 }
