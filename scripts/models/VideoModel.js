@@ -10,7 +10,15 @@ class VideoModel {
         this._src = `assets/photographers/${video.photographerName}/${video.video}`
         this._likes = video.likes
         this._date = video._date
-        this._liked = false
+        try {
+            this._liked = JSON.parse(localStorage.getItem(this._id))
+            if(this._liked === true ) {
+                this._likes += 1
+            }
+        } catch (error) {
+            console.log(error)
+            this._liked = false
+        }
         this._triggerLikesChange
     }
     get id() {
@@ -79,6 +87,7 @@ class VideoModel {
             }
             likes.childNodes[0].textContent = this._likes
             this._triggerLikesChange()
+            this.saveLikeToLocalStorage(this._liked)
         })
         
         videoContainer.appendChild(video)
@@ -103,4 +112,12 @@ class VideoModel {
 
         return video
     }
+    saveLikeToLocalStorage(val) {
+        try {
+            localStorage.setItem(this._id, JSON.stringify(val))
+        }catch(error) {
+            console.log(error)
+        }
+    }
+
 }

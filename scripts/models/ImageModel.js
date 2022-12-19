@@ -11,7 +11,16 @@ class ImageModel {
         this._src = `assets/photographers/${image.photographerName}/${image.image}`
         this._likes = image.likes
         this._date = image._date
-        this._liked = false
+
+        try {
+            this._liked = JSON.parse(localStorage.getItem(this._id))
+            if(this._liked === true ) {
+                this._likes += 1
+            }
+        } catch (error) {
+            console.log(error)
+            this._liked = false
+        }
         this._triggerLikesChange
     }
 
@@ -38,6 +47,7 @@ class ImageModel {
             this._triggerLikesChange = resolve
         })
     }
+
 
     getCardDOM() {
         const article = document.createElement('article')
@@ -78,6 +88,7 @@ class ImageModel {
             }
             likes.childNodes[0].textContent = this._likes
             this._triggerLikesChange()
+            this.saveLikeToLocalStorage(this._liked)
         })
         
         imageContainer.appendChild(image)
@@ -93,5 +104,13 @@ class ImageModel {
         image.src = this._src
 
         return image
+    }
+
+    saveLikeToLocalStorage(val) {
+        try {
+            localStorage.setItem(this._id, JSON.stringify(val))
+        }catch(error) {
+            console.log(error)
+        }
     }
 }
