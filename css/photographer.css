@@ -17,9 +17,6 @@ h1 {
 main {
     padding: 0 100px;
 }
-#contact_modal {
-    display: none;
-}
 
 .heart-icon {
     height: 24px;
@@ -249,22 +246,43 @@ main {
     border-radius: 5px;
     cursor: pointer;
 }
+#contact_modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    align-items: start;
+    justify-content: center;
+    background-color: rgba(196, 196, 196, 0.4);
 
+}
+#contact_modal.open {
+    display: flex;
+    overflow: auto;
+}
 .modal {
     border-radius: 5px;
-    background-color: #DB8876;
-    width: 50%;
+    background-color: var(--secondary-color);
+    width: 100%;
+    max-width: 720px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     justify-content: space-between;
     padding: 35px;
-    margin: auto;
+    margin: 50px 0;
+    box-shadow: -5px 10px 30px rgba(0, 0, 0, 0.25);
+    position: relative;
 }
 
 .modal header {
+    align-items: flex-start;
     justify-content: space-between;
     width: 100%;
+    height: unset;
 }
 
 .modal header img {
@@ -274,7 +292,9 @@ main {
 .modal header h2 {
     font-size: 64px;
     font-weight: normal;
-    text-align: center;
+    text-align: left;
+    margin: 0;
+    line-height: 1;
 }
 
 form {
@@ -282,6 +302,7 @@ form {
     width: 100%;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 25px;
 }
 
 form label {
@@ -289,19 +310,97 @@ form label {
     font-size: 36px;
 }
 
-form div {
+form .form-data {
     display: flex;
     flex-direction: column;
     width: 100%;
     align-items: self-start;
-    margin-bottom: 26px;
+    margin-bottom: 10px;
 }
 
-form input {
+form input{
     width: 100%;
     height: 68px;
     border: none;
     border-radius: 5px;
+    font-size: 36px;
+}
+form textarea {
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    font-size: 36px;
+    height: 170px
+}
+form > .form-data[data-error-visible=true]::after{
+    content: attr(data-error);
+    color: #660000;
+    font-size: 22px;
+    display: block;
+    height: 10px;
+    width: 100%;
+    text-align: right;
+    margin-top: 5px;
+}
+form > .form-data[data-error-visible=true] input, form > div[data-error-visible=true] textarea {
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.267);
+    background-color: #ffcfcf;
+}
+form > .form-data[data-error-visible=true] label {
+    color: #660000;
+}
+form.sending--success > .form-data {
+    display: none;
+}
+form.sending--success {
+    align-items: center;
+    justify-content: center;
+}
+form .success-msg {
+    display: none;
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 60px;
+}
+form.sending--success .success-msg {
+    display: block;
+}
+form .loader {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.7);
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+}
+form .loader::before {
+    content: "";
+    height: 60px;
+    width: 60px;
+    background-color: transparent;
+    border-radius: 50%;
+    border-color: transparent var(--primary-color) var(--primary-color) var(--primary-color);
+    border-width: 5px;
+    border-style: solid;
+    animation: spin 1s infinite;
+}
+form.sending .loader {
+    display: flex;
+}
+.contact_button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 23px 50px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 700;
+    margin-top: 26px;
+    cursor: pointer;
 }
 
 .lightbox {

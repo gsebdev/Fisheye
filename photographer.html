@@ -19,7 +19,7 @@
           <p class="photograph-header__location"></p>
           <p class="photograph-header__tagline"></p>
         </div>
-        <button class="btn" onclick="displayModal()">Contactez-moi</button>
+        <button class="btn" data-target="contact_modal">Contactez-moi</button>
         <img class="photograph-portrait" src="" alt="">
         <div class="photograph-header__container-fixed">
           <span class="photograph-header__likes">0<span class="heart-icon"></span></span>
@@ -47,24 +47,29 @@
 			<div class="modal">
 				<header>
           <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+          <img class="contact_modal__close" src="assets/icons/close.svg">
         </header>
-				<form>
-					<div>
+				<form action="" method="post">
+					<div class="form-data">
 						<label for="contact-firstname">Prénom</label>
-						<input type="text" id="contact-firstname" name="firstname"/>
+						<input type="text" id="contact-firstname" name="firstname" required>
 					</div>
-          <div>
+          <div class="form-data">
 						<label for="contact-lastname">Nom</label>
-						<input type="text" id="contact-lastname" name="lastname"/>
+						<input type="text" id="contact-lastname" name="lastname"required>
 					</div>
-          <div>
+          <div class="form-data">
 						<label for="contact-email">Email</label>
-						<input type="email" id="contact-email" name="email">
+						<input type="email" id="contact-email" name="email" required>
 					</div>
-          <label for="contact-message">Votre message</label>
-          <textarea name="message" id="contact-message" cols="30" rows="10"></textarea>
-          <button class="contact_button">Envoyer</button>
+          <div class="form-data">
+            <label for="contact-message">Votre message</label>
+            <textarea name="message" id="contact-message" cols="30" rows="10" required></textarea>
+          </div>
+          <div class="success-msg"></div>
+          <button class="contact_button" type="submit">Envoyer</button>
+          
+          <div class="loader"></div>
 				</form>
 			</div>
 		</div>

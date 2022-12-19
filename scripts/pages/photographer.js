@@ -106,8 +106,10 @@ async function init() {
     const photographerID = new URL(document.location).searchParams.get('id');
     const photographerModel = new PhotographerModel(await getPhotographer(photographerID))
     const mediasComponent = new MediasComponent(photographerModel)
+    const contactForm = () => new ContactForm('contact_modal', photographerModel.name)
     displayHeaderData(photographerModel, mediasComponent)
     mediasComponent.renderMedias()
+    contactForm()
 
 
 }
