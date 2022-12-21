@@ -1,6 +1,8 @@
 :root {
     --primary-color: #901C1C;
     --secondary-color: #DB8876;
+
+    --primary-text-color: #D3573C;
 }
 body {
     font-family: "DM Sans", sans-serif;
@@ -15,6 +17,7 @@ header {
     justify-content: space-between;
     align-items: center;
     height: 90px;
+    padding-left: 100px;
 }
 
 h1 {
@@ -30,7 +33,6 @@ p {
 
 .logo {
     height: 50px;
-    margin-left: 100px;
 }
 
 .photograph-portrait{
@@ -58,11 +60,16 @@ p {
     text-decoration: none;
 }
 .photographer-card__name {
-    color: var(--secondary-color);
+    color: var(--primary-text-color);
     font-size: 36px;
     font-weight: 400;
     line-height: 47px;
     margin: -10px 0 0;
+}
+.photographer-card__text-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;    
 }
 .photographer-card__price {
     font-size: 9px;

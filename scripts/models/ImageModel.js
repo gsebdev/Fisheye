@@ -33,12 +33,4 @@ class ImageModel extends MediaModel {
 
         return image
     }
-
-    saveLikeToLocalStorage(val) {
-        try {
-            localStorage.setItem(this._id, JSON.stringify(val))
-        }catch(error) {
-            console.log(error)
-        }
-    }
 }
