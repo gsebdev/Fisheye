@@ -7,94 +7,93 @@ class FilterSortBy {
         this._menu = document.querySelector('.sort-filter__menu')
         this._filters = this._menu.querySelectorAll('.sort-filter__filter')
         this._button = document.querySelector('.sort-filter__button')
-        this._buttonIcon = document.querySelector('.sort-filter__dropdown-icon')
         this._triggerFilterChange
-
-        this._filters.forEach(filter => filter.addEventListener('keydown', this.handleKeyDown.bind(this)))
-        this._filters.forEach(filter => filter.addEventListener('click', this.handleFilterClick.bind(this)))
-        this._buttonIcon.addEventListener('click', this.handleButtonEvent.bind(this))
-        this._button.addEventListener('keydown', this.handleButtonEvent.bind(this))
-        this._button.addEventListener('click', this.handleButtonEvent.bind(this))
+        
+        this._eventListeners = ['keydown', 'click']
+        this._eventListeners.forEach(event => {
+            this._filters.forEach(filter => filter.addEventListener(event, this.handleFiltersEvent.bind(this)))
+            this._button.addEventListener(event, this.handleButtonEvent.bind(this))
+        })
     }
 
 
     handleButtonEvent(e) {
-        if(e.type === 'keydown') {
-            switch(e.key) {
-                case 'ArrowRight':
-                case 'ArrowDown':
-                    e.preventDefault()
-                    if(this._currentFilterElement.nextElementSibling) {
-                        this.switchSelectedFilter(this._currentFilterElement.nextElementSibling)
-                    }
-                    return false
-                case 'ArrowLeft':
-                case 'ArrowUp':
-                    e.preventDefault()
-                    if(this._currentFilterElement.previousElementSibling) {
-                        this.switchSelectedFilter(this._currentFilterElement.previousElementSibling)
-                    }
-                    return false
-                case 'Enter':
-                    e.preventDefault()
-                    e.stopPropagation()
-                    break
-                default:
-                    return false
-            }
-        }
-
-        if(this._isExpanded) {
-            this.closeFilterMenu()
-            if(e.key === 'Enter') {
-                this._button.focus()
-            }
-        } else {
-            
-            this.openFilterMenu()
-            if(e.key === 'Enter') {
-                this._currentFilterElement.focus()
-            }
+        switch(e.which) {
+            //arrow right and down
+            case 39:
+            case 40:
+                e.preventDefault()
+                if(this._currentFilterElement.nextElementSibling) {
+                    this.switchSelectedFilter(this._currentFilterElement.nextElementSibling)
+                }
+                break
+            //arrow left and up
+            case 37:
+            case 38:
+                e.preventDefault()
+                if(this._currentFilterElement.previousElementSibling) {
+                    this.switchSelectedFilter(this._currentFilterElement.previousElementSibling)
+                }
+                break
+            //key enter and click left
+            case 13:
+            case 1:
+                e.preventDefault()
+                e.stopPropagation()
+                if(this._isExpanded) {
+                    this.closeFilterMenu()
+                    if(e.which === 13) {this._button.focus()}
+                }else{ 
+                    this.openFilterMenu()
+                    this.switchFilterFocus(this._currentFilterElement)
+                }
+                break
+            default:
+                return false
         }
     }
-    handleKeyDown(e) {
+    handleFiltersEvent(e) {
         e.preventDefault()
         e.stopPropagation()
-        switch(e.key) {
-            case 'ArrowUp':
+        switch(e.which) {
+            //up arrow key
+            case 38:
                 
                 if(e.target.previousElementSibling) {
-                    e.target.previousElementSibling.focus()
+                    this.switchFilterFocus(e.target.previousElementSibling)
                 }else {
-                    e.target.parentElement.lastElementChild.focus()
+                    this.switchFilterFocus(e.target.parentElement.lastElementChild)
                 }
                 break
-            case 'ArrowDown':
+            //down arrow key
+            case 40:
                 
                 if(e.target.nextElementSibling) {
-                    e.target.nextElementSibling.focus()
+                    this.switchFilterFocus(e.target.nextElementSibling)
                 }else {
-                    e.target.parentElement.firstElementChild.focus()
+                    this.switchFilterFocus(e.target.parentElement.firstElementChild)
                 }
                 break
-            case 'Enter':
-                this.handleFilterClick(e)
-                this._button.focus()
-            case 'Escape':
-            case 'Tab':
+            //Enter and click left
+            case 13:
+            case 1:
+                if(e.target.getAttribute('aria-selected') === 'false') {
+                    this.switchSelectedFilter(e.target)
+                } else {
+                    this.closeFilterMenu()
+                }
+                if(e.which === 13) {
+                   this._button.focus() 
+                }
+            //Escape and Tab keys
+            case 9:
+            case 27:
                 this.closeFilterMenu()
                 this._button.focus()
                 break
+            default:
+                return false
         }
-    }
-    handleFilterClick(e) {
-            const clickedFilter = e.target
-            const selected = clickedFilter.getAttribute('aria-selected')
-            if(selected === 'false') {
-                this.switchSelectedFilter(clickedFilter)
-            } else {
-                this.closeFilterMenu()
-            }
     }
     switchSelectedFilter(newFilterElement) {
         this._currentFilterElement.setAttribute('aria-selected', false)
@@ -108,13 +107,33 @@ class FilterSortBy {
 
 
     }
+    switchFilterFocus(target) {
+        target.focus()
+        if(target === this._filters[0]) {
+            this._menu.classList.add('dropdown-focus')
+        } else {
+            this._menu.classList.remove('dropdown-focus')
+        }
+    }
     closeFilterMenu() {
         this._menu.classList.remove('dropped-down')
+        this._menu.classList.remove('dropdown-focus')
         this._isExpanded = false
+        document.onclick = null
+        this._menu.onmouseover = null
+
     }
     openFilterMenu() {
         this._menu.classList.add('dropped-down')
         this._isExpanded = true
+        document.onclick = (e) => {
+            if(!this._menu.contains(e.target)) {
+                this.closeFilterMenu()
+            }
+        }
+        this._menu.onmouseover = (e) => {
+                this.switchFilterFocus(e.target)
+            }
     }
 
     get filterChange() {
