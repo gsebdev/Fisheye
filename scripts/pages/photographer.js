@@ -27,6 +27,7 @@ function displayHeaderData(photographerModel, mediasComponent) {
     location.textContent = photographerModel.city + ', ' +  photographerModel.country
     tagline.textContent = photographerModel.tagline
     portrait.src = photographerModel.picture
+    portrait.alt = photographerModel.name
     price.textContent = photographerModel.price + '€ / jour'
     
     function displayPhotographerLikes() {
@@ -43,7 +44,7 @@ function displayHeaderData(photographerModel, mediasComponent) {
 
 class MediasComponent {
     constructor(photographerModel) {
-        this._filterComponent = new FilterSortBy('.sort-filter__menu', '.sort-filter__filter')
+        this._filterComponent = new FilterSortBy()
         this._filter = this._filterComponent.filterValue
         this._triggerLikesChange
         this._photographerModel = photographerModel

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr-FR">
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link href="css/photographer.css" rel="stylesheet" type="text/css" />
@@ -10,38 +10,46 @@
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" />
-    </header>
+      <a href="index.html"><img src="assets/images/logo.png" alt="Fisheye Home page" class="logo"></a>
+  </header>
     <main id="main">
-      <section class="photograph-header">
-        <div class="photograph-header__text-container">
-          <h1></h1>
-          <p class="photograph-header__location"></p>
-          <p class="photograph-header__tagline"></p>
-        </div>
-        <button class="btn" data-target="contact_modal">Contactez-moi</button>
-        <img class="photograph-portrait" src="" alt="">
-        <div class="photograph-header__container-fixed">
-          <span class="photograph-header__likes">0<span class="heart-icon"></span></span>
-          <span class="photograph-header__price"></span>
-        </div>
-      </section>
-      <section class="photograph-medias">
-        <div class="sort-filter">
-          <span class="sort-filter__text">Trier par</span>
-          <div class="sort-filter__menu">
-            <div class="sort-filter__dropdown-icon">
-              <img src="assets/icons/arrow_up.svg" alt="">
+      <article>
+        <section class="photograph-header">
+          <div class="photograph-header__text-container">
+            <h1></h1>
+            <p>
+              <span class="photograph-header__location"></span>
+              <span class="photograph-header__tagline"></span>
+            </p>
+            
+          </div>
+          <button class="btn" data-target="contact_modal" aria-label="Contact Me">Contactez-moi</button>
+          <img class="photograph-portrait" src="" alt="">
+          <p class="photograph-header__container-fixed">
+            <span class="photograph-header__likes">0<i class="heart-icon" title="likes"></i></span>
+            <span class="photograph-header__price"></span>
+          </p>
+        </section>
+        <section class="photograph-medias">
+          <div class="sort-filter">
+            <span class="sort-filter__text" id="filter-label">Trier par</span>
+            <div class="sort-filter__menu">
+              
+              <button class="sort-filter__button btn" aria-haspopup="listbox" aria-expanded="true">Popularité<span class="sort-filter__dropdown-icon"></span></button>
+                <ul class="sort-filter__list" role="listbox" aria-activedescendant="filter-opt1" aria-labelledby="filter-label">
+                  <li role="option" tabindex="0" id="filter-opt1" data-value="likes" aria-selected="true" class="sort-filter__filter">Popularité</li>
+                  <li role="option" tabindex="0" id="filter-opt2" data-value="date" aria-selected="false" class="sort-filter__filter">Date</li>
+                  <li role="option" tabindex="0" id="filter-opt2" data-value="title" aria-selected="false" class="sort-filter__filter">Titre</li>
+                </ul>
             </div>
-              <ul>
-                <li data-value="likes" data-selected="true" class="sort-filter__filter">Popularité</li>
-                <li data-value="date" data-selected="false" class="sort-filter__filter">Date</li>
-                <li data-value="title" data-selected="false" class="sort-filter__filter">Titre</li>
-              </ul>
-            </div>
-        </div>
-        <div class="photograph-medias__wrapper"></div>
-      </section>
+          </div>
+          <div class="photograph-medias__wrapper"></div>
+        </section>
+      </article>  
+      <select name="sqdfsqdef" id="">
+        <option value="dqsfsdf">sdfsdf</option>
+        <option value="">sdfsdfsdf</option>
+      </select> 
     </main>
     <div id="contact_modal">
 			<div class="modal">
@@ -49,7 +57,7 @@
           <h2>Contactez-moi</h2>
           <img class="contact_modal__close" src="assets/icons/close.svg">
         </header>
-				<form action="" method="post">
+				<form action="" method="post" class="contact-form">
 					<div class="form-data">
 						<label for="contact-firstname">Prénom</label>
 						<input type="text" id="contact-firstname" name="firstname" required>

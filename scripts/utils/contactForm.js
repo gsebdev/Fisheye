@@ -26,7 +26,7 @@ class ContactForm{
         this._formEl.querySelectorAll('input:not([type=submit]), textarea').forEach(input => {
             input.value = ''
         })
-        this._formEl.className = ''
+        this._formEl.classList.remove('sending', 'sending--success')
         this._formEl.querySelector('*[type=submit]').textContent = 'Envoyer'
     }
 
@@ -116,7 +116,7 @@ class ContactForm{
       displayLoading () {
         const submitBtn = this._formEl.querySelector('*[type=submit]')
     
-        this._formEl.className = 'sending'
+        this._formEl.classList.add('sending')
         submitBtn.textContent = 'Envoi...'
       }
     
@@ -126,7 +126,7 @@ class ContactForm{
         const formHeight = this._formEl.offsetHeight
         const submitBtn = this._formEl.querySelector('*[type=submit]')
         this._formEl.querySelector('.success-msg').innerHTML = msg
-        this._formEl.className = 'sending--success'
+        this._formEl.classList.add('sending--success')
         this._formEl.style.height = formHeight + 'px'
         
         submitBtn.textContent = 'Fermer'
