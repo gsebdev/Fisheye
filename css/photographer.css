@@ -223,7 +223,7 @@ main {
     cursor: pointer;
  }
  .media-card__media-container {
-    
+    display: block  ;
     width: 100%;
     padding-bottom: 85.7%;
     position: relative;
@@ -303,6 +303,14 @@ main {
     display: flex;
     overflow: auto;
 }
+.contact_modal__close {
+    position: absolute;
+    top: 35px;
+    right: 35px;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+}
 .modal {
     border-radius: 5px;
     background-color: var(--secondary-color);
@@ -321,8 +329,9 @@ main {
 .modal header {
     align-items: flex-start;
     justify-content: space-between;
-    width: 100%;
+    width: calc(100% -100px);
     height: unset;
+    padding-left: 0;
 }
 
 .modal header img {
@@ -473,9 +482,10 @@ main {
     font-size: 24px;
     font-weight: 400;
     color: var(--primary-color);
-    /*box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.2);*/
+
     background-color: white;
     padding: 5px 5px 19px 5px;
+    order: 2;
 }
 .lightbox__media-container p{
     margin-left: 3px;
@@ -510,12 +520,14 @@ main {
     margin-left: 10px;
     position: relative;
     transition: opacity 0.2s ease-in-out;
+    order: 3;
 }
 
 .lightbox__previous {
     transform: rotate(180deg);
     margin-left: 0;
     margin-right: 10px;
+    order: 1;
 }
 .lightbox__previous::after, .lightbox__next::after, .lightbox__close::after{
     content: "";
@@ -531,6 +543,8 @@ main {
     position: absolute;
     right: 0;
     top: 0;
+    background-color: transparent;
+    border: 0;
 }
 .lightbox__close::after {
     clip-path: polygon(30% 25%, 25% 30%, 45% 50%, 25% 70%, 30% 75%, 50% 55%, 70% 75%, 75% 70%, 55% 50%, 75% 30%, 70% 25%, 50% 45%);

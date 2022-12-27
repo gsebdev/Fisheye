@@ -21,6 +21,7 @@ class ImageModel extends MediaModel {
         const image = document.createElement('img')
         image.className = 'media-card__media'
         image.src = this._thumbSrc
+        image.alt = this._title + ', closeup view'
 
         article.querySelector('.media-card__media-container').append(image)
 
@@ -30,6 +31,7 @@ class ImageModel extends MediaModel {
         const image = document.createElement('img')
         image.className = 'photograph-media'
         image.src = this._src
+        image.alt = this._title
 
         return image
     }

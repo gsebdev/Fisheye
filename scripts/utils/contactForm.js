@@ -1,26 +1,34 @@
 class ContactForm{
     constructor(modalId, name){
         this._modalID = modalId
+        this._modalEl = document.querySelector('#' + this._modalID)
         this._formEl = document.querySelector('#' + this._modalID + ' form')
         this._errors = null
         this._data = {}
         this._sent = false
-        document.querySelector('.' + this._modalID + '__close').addEventListener('click', this.close.bind(this))
+        this._closeButton = document.querySelector('.' + this._modalID + '__close')
+
+        this._closeButton.addEventListener('click', this.close.bind(this))
         document.querySelector('*[data-target=' + this._modalID + ']').addEventListener('click', this.open.bind(this))
-        document.querySelector('#' + this._modalID + ' h2').insertAdjacentHTML('beforeend', '<br>' + name)
-        document.querySelector('#' + this._modalID + ' button[type=submit]').addEventListener('click', this.handleSubmit.bind(this))
+        this._modalEl.querySelector('h2').insertAdjacentHTML('beforeend', '<br>' + name)
+        this._modalEl.querySelector('button[type=submit]').addEventListener('click', this.handleSubmit.bind(this))
+        this._modalEl.addEventListener('keydown', this.handleKeydownEvent.bind(this))
 
     }
-    close() {
+    close(e) {
+      e.preventDefault()
         document.querySelector('#' + this._modalID).classList.remove('open')
         document.body.style.overflow = 'auto'
         this.reset()
     }
     open() {
         this.reset()
-        document.querySelector('#' + this._modalID).classList.add('open')
-        document.querySelector('#' + this._modalID).style.top = window.scrollY + 'px'
+        const modal = document.querySelector('#' + this._modalID)
+        modal.classList.add('open')
+        modal.style.top = window.scrollY + 'px'
+        modal.querySelector('.modal').focus()
         document.body.style.overflow = 'hidden'
+
     }
     reset() {
         this._formEl.querySelectorAll('input:not([type=submit]), textarea').forEach(input => {
@@ -30,7 +38,17 @@ class ContactForm{
         this._formEl.querySelector('*[type=submit]').textContent = 'Envoyer'
     }
 
-
+    handleKeydownEvent(e){
+      const firstFocusableEl = this._modalEl.querySelector('*[role=dialog], button, a, input, textarea')
+      if(e.which === 9 && e.target === this._closeButton && e.shiftKey === false) {
+        e.preventDefault()
+        firstFocusableEl.focus()
+      }
+      if(e.which === 9 && e.target === firstFocusableEl && e.shiftKey === true) {
+        e.preventDefault()
+        this._closeButton.focus()
+      }
+    }
     handleSubmit (e) {
         e.preventDefault()
 

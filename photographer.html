@@ -14,27 +14,11 @@
   </header>
     <main id="main">
       <article>
-        <section class="photograph-header">
-          <div class="photograph-header__text-container">
-            <h1></h1>
-            <p>
-              <span class="photograph-header__location"></span>
-              <span class="photograph-header__tagline"></span>
-            </p>
-            
-          </div>
-          <button class="btn" data-target="contact_modal" aria-label="Contact Me">Contactez-moi</button>
-          <img class="photograph-portrait" src="" alt="">
-          <p class="photograph-header__container-fixed">
-            <span class="photograph-header__likes">0<i class="heart-icon" title="likes"></i></span>
-            <span class="photograph-header__price"></span>
-          </p>
-        </section>
         <section class="photograph-medias">
           <div class="sort-filter">
             <span class="sort-filter__text" id="filter-label">Trier par</span>
             <div class="sort-filter__menu">
-              <button class="sort-filter__button btn" aria-haspopup="listbox" aria-expanded="true">Popularité<span class="sort-filter__dropdown-icon"></span></button>
+              <button class="sort-filter__button btn" aria-labelledby="filter-label" aria-haspopup="listbox" aria-expanded="false">Popularité<span class="sort-filter__dropdown-icon"></span></button>
               <ul class="sort-filter__list" role="listbox" aria-activedescendant="filter-opt1" aria-labelledby="filter-label">
                 <li role="option" tabindex="0" id="filter-opt1" data-value="likes" aria-selected="true" class="sort-filter__filter">Popularité</li>
                 <li role="option" tabindex="0" id="filter-opt2" data-value="date" aria-selected="false" class="sort-filter__filter">Date</li>
@@ -47,36 +31,36 @@
       </article>
     </main>
     <div id="contact_modal">
-			<div class="modal">
+			<div role="dialog" aria-labelledby="contact-modal-title" aria-modal="true" tabindex="0" class="modal">
 				<header>
-          <h2>Contactez-moi</h2>
-          <img class="contact_modal__close" src="assets/icons/close.svg">
+          <h2 id="contact-modal-title">Contactez-moi </h2>
         </header>
 				<form action="" method="post" class="contact-form">
 					<div class="form-data">
-						<label for="contact-firstname">Prénom</label>
-						<input type="text" id="contact-firstname" name="firstname" required>
+						<label id="contact-firstname-label" for="contact-firstname">Prénom</label>
+						<input aria-labelledby='contact-firstname-label' type="text" id="contact-firstname" name="firstname" required>
 					</div>
           <div class="form-data">
-						<label for="contact-lastname">Nom</label>
-						<input type="text" id="contact-lastname" name="lastname"required>
+						<label id="contact-lastname-label" for="contact-lastname">Nom</label>
+						<input aria-labelledby='contact-lastname-label' type="text" id="contact-lastname" name="lastname"required>
 					</div>
           <div class="form-data">
-						<label for="contact-email">Email</label>
-						<input type="email" id="contact-email" name="email" required>
+						<label id="contact-email-label" for="contact-email">Email</label>
+						<input aria-labelledby='contact-email-label' type="email" id="contact-email" name="email" required>
 					</div>
           <div class="form-data">
-            <label for="contact-message">Votre message</label>
-            <textarea name="message" id="contact-message" cols="30" rows="10" required></textarea>
+            <label id="contact-message-label" for="contact-message">Votre message</label>
+            <textarea aria-labelledby='contact-message-label' name="message" id="contact-message" cols="30" rows="10" required></textarea>
           </div>
           <div class="success-msg"></div>
-          <button class="contact_button" type="submit">Envoyer</button>
-          
+          <button aria-label="Send" class="contact_button" type="submit">Envoyer</button>
+          <button class="contact_modal__close" aria-label="Close Contact form"><img src="assets/icons/close.svg" alt=""></button>
           <div class="loader"></div>
 				</form>
 			</div>
 		</div>
-    <script src="scripts/models/PhotographerModel.js"></script>
+    <script src="scripts/api/api.js"></script>
+    <script src="scripts/factories/PhotographerFactory.js"></script>
     <script src="scripts/models/MediaModel.js"></script>
     <script src="scripts/models/VideoModel.js"></script>
     <script src="scripts/models/ImageModel.js"></script>

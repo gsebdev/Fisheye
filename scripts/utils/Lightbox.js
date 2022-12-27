@@ -6,7 +6,9 @@ class Lightbox {
      */
     constructor(selectedId, medias) {
         this._currentMediaIndex = medias.findIndex(media => media.id == selectedId)
+        this._selectedId = selectedId
         this._medias = medias
+        this._eventListeners = ['keydown', 'click']
         this._lightboxDOM = this.createDOM()
         this.init()
     }
@@ -15,8 +17,74 @@ class Lightbox {
         document.querySelector('main').appendChild(this._lightboxDOM)
         this.disableScroll()
         await this.insertMedia(this._medias[this._currentMediaIndex].getMediaDOM())
-        this._lightboxDOM.classList.remove('loading')
+        this._lightboxDOM.classList.remove('loading')               
+        
+        this._eventListeners.forEach(event => {
+            this._lightboxDOM.addEventListener(event, this.handleLightboxEvent.bind(this))
+        })
 
+    }
+    handleLightboxEvent(e) {
+        e.preventDefault()
+        e.stopImmediatePropagation()
+        switch(e.which){
+            case 27:
+                this.close()
+                document.getElementById(this._selectedId).querySelector('a').focus()
+                break
+            case 39:
+                this.next()
+                break
+            case 37:
+                this.prev()
+                break
+            case 9:
+                const interactiveEl = this._lightboxDOM.querySelectorAll('a, img, video, button')
+                const focusEl = this._lightboxDOM.querySelector(':focus')
+                if(focusEl !== null){
+                    const index = Array.from(interactiveEl).findIndex(el => el == focusEl)
+                    if(e.shiftKey){
+                        if(index === 0){
+                            interactiveEl[interactiveEl.length -1].focus()
+                        }else {
+                           interactiveEl[index - 1].focus() 
+                        }
+                    }else{
+                        if(index === interactiveEl.length - 1){
+                            interactiveEl[0].focus()
+                        }else {
+                            interactiveEl[index + 1].focus() 
+                        }
+                    }
+                }else {
+
+                    interactiveEl[0].focus()
+                }
+                break
+            case 1:
+            case 13:
+                const el = e.target
+                switch(el.className) {
+                    case 'lightbox__wrapper':
+                    case 'photograph-media': {
+                        e.offsetX < (el.offsetWidth / 2) ? this.prev() : this.next()
+                        break
+                    }
+                    case 'lightbox__close' :
+                    case 'lightbox':
+                        this.close()
+                        break
+                    case 'lightbox__next' :
+                        this.next()
+                        break
+                    case 'lightbox__previous':
+                        this.prev()
+                        break
+                    default: 
+                        return false
+        }
+
+        }
     }
     disableScroll() {
         document.body.style.overflow = 'hidden'
@@ -29,55 +97,44 @@ class Lightbox {
     createDOM() {
         const lightbox = document.createElement('div')
         lightbox.className = 'lightbox loading'
-        lightbox.addEventListener('click', this.close.bind(this))
         const wrapper = document.createElement('div')
         wrapper.className = 'lightbox__wrapper'
-        wrapper.addEventListener('click', this.handleClick.bind(this))
-        const prev = document.createElement('div')
+        wrapper.id = 'lightbox-dialog'
+        wrapper.setAttribute('aria-label', 'image closeup view')
+        wrapper.setAttribute('role', 'dialog')
+        wrapper.setAttribute('aria-modal', 'true')
+        const prev = document.createElement('a')
+        prev.href = '#'
         prev.className = 'lightbox__previous'
-        const next = document.createElement('div')
+        prev.setAttribute('aria-label', 'Previous image')
+        const next = document.createElement('a')
+        next.href = '#'
         next.className = 'lightbox__next'
-        const close = document.createElement('div')
+        next.setAttribute('aria-label', 'Next image')
+        const close = document.createElement('button')
         close.className = 'lightbox__close'
+        close.setAttribute('aria-label', 'Close dialog')
         const mediaContainer = document.createElement('div')
         mediaContainer.className = 'lightbox__media-container'
         
-        wrapper.append(prev, mediaContainer, close, next)
+        wrapper.append(mediaContainer,prev, next, close)
         lightbox.appendChild(wrapper)
         
         return lightbox
     }
-
-    handleClick(e) {
-        e.stopImmediatePropagation()
-        const el = e.target
-        switch(el.className) {
-            case 'lightbox__wrapper':
-            case 'photograph-media': {
-                e.offsetX < (el.offsetWidth / 2) ? this.prev() : this.next()
-                break
-            }
-            case 'lightbox__close' :
-                this.close()
-                break
-            case 'lightbox__next' :
-                this.next()
-                break
-            case 'lightbox__previous':
-                this.prev()
-                break
-            default: 
-                return false
-        }
-
-    }
     async insertMedia() {
         const mediaDOM = this._medias[this._currentMediaIndex].getMediaDOM()
-        const mediaTitle = this._medias[this._currentMediaIndex].title
+        const mediaTitle = document.createElement('p')
+        mediaTitle.id = 'lightbox-media-title'
+        mediaTitle.textContent = this._medias[this._currentMediaIndex].title
+        mediaDOM.tabIndex = 0
+        mediaDOM.setAttribute('aria-labelledby', 'lightbox-dialog lightbox-media-title')
         this._lightboxDOM.classList.add('loading')
         await new Promise((resolve) => setTimeout(resolve, 200));
-        this._lightboxDOM.querySelector('.lightbox__media-container').innerHTML = mediaDOM.outerHTML + '<p>' + mediaTitle + '</p>'
+        this._lightboxDOM.querySelector('.lightbox__media-container').replaceChildren(mediaDOM)         
+        this._lightboxDOM.querySelector('.lightbox__media-container').appendChild(mediaTitle)
         await new Promise((resolve) => setTimeout(resolve, 100));
+        this._lightboxDOM.querySelector('.lightbox__media-container').focus() 
 
         if(this._currentMediaIndex === this._medias.length - 1) {
             this._lightboxDOM.querySelector('.lightbox__next').classList.add('disabled')
@@ -93,12 +150,11 @@ class Lightbox {
 
     close() {
         const openedlightboxes = document.querySelectorAll('.lightbox')
-        
         openedlightboxes.forEach(lightbox => {
             lightbox.remove()
         })
-
         this.enableScroll()
+        document.getElementById(this._selectedId).querySelector('a').focus()
     }
     async next() {
         if(this._currentMediaIndex < this._medias.length - 1) {

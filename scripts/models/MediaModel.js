@@ -18,7 +18,6 @@ class MediaModel {
             console.log(error)
             this._liked = false
         }
-        this._triggerLikesChange
     }
     get id() {
         return this._id
@@ -35,19 +34,14 @@ class MediaModel {
     get date() {
         return this._date
     }
-    get likesChange() {
-        return new Promise(resolve => {
-            this._triggerLikesChange = resolve
-        })
-    }
-
 
     getDefaultCardDOM() {
         const article = document.createElement('article')
         article.id = this._id
         article.className = 'media-card'
 
-        const imageContainer = document.createElement('div')
+        const imageContainer = document.createElement('a')
+        imageContainer.href = '#'
         imageContainer.className = 'media-card__media-container'
 
         const bottomContainer = document.createElement('div')
@@ -60,6 +54,8 @@ class MediaModel {
         const likes = document.createElement('span')
         const icon = document.createElement('span')
         icon.className = 'heart-icon'
+        icon.setAttribute('aria-label', 'likes')
+        icon.setAttribute('role', 'img')
         likes.className = 'media-card__likes'
         likes.textContent = this._likes
         likes.append(icon)
@@ -76,8 +72,8 @@ class MediaModel {
                 likes.setAttribute('data-liked', true)
             }
             likes.childNodes[0].textContent = this._likes
-            this._triggerLikesChange()
             this.saveLikeToLocalStorage(this._liked)
+            likes.dispatchEvent(new Event('change'))
         })
         
         
@@ -93,5 +89,8 @@ class MediaModel {
         }catch(error) {
             console.log(error)
         }
+    }
+    set change(callback) {
+        document.querySelector('.media-card__likes').addEventListener('change', callback)
     }
 }

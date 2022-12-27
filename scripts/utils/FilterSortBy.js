@@ -7,7 +7,6 @@ class FilterSortBy {
         this._menu = document.querySelector('.sort-filter__menu')
         this._filters = this._menu.querySelectorAll('.sort-filter__filter')
         this._button = document.querySelector('.sort-filter__button')
-        this._triggerFilterChange
         
         this._eventListeners = ['keydown', 'click']
         this._eventListeners.forEach(event => {
@@ -99,11 +98,11 @@ class FilterSortBy {
         this._currentFilterElement.setAttribute('aria-selected', false)
         newFilterElement.setAttribute('aria-selected', true)
         this._currentFilterElement = newFilterElement
+        this._currentFilterElement.parentElement.setAttribute('aria-activedescendant', this._currentFilterElement.id)
         this.currentFilterValue = newFilterElement.getAttribute('data-value')
-        //this._currentFilterElement.parentNode.prepend(this._currentFilterElement)
         this._button.childNodes[0].textContent = this._currentFilterElement.textContent
         this.closeFilterMenu()
-        this._triggerFilterChange(this.currentFilterValue)
+        this._menu.dispatchEvent(new Event('change'))
 
 
     }
@@ -119,6 +118,7 @@ class FilterSortBy {
         this._menu.classList.remove('dropped-down')
         this._menu.classList.remove('dropdown-focus')
         this._isExpanded = false
+        this._button.setAttribute('aria-expanded', this._isExpanded)
         document.onclick = null
         this._menu.onmouseover = null
 
@@ -126,6 +126,7 @@ class FilterSortBy {
     openFilterMenu() {
         this._menu.classList.add('dropped-down')
         this._isExpanded = true
+        this._button.setAttribute('aria-expanded', this._isExpanded)
         document.onclick = (e) => {
             if(!this._menu.contains(e.target)) {
                 this.closeFilterMenu()
@@ -136,12 +137,10 @@ class FilterSortBy {
             }
     }
 
-    get filterChange() {
-        return new Promise(resolve => {
-            this._triggerFilterChange = resolve
-        })
+    set change(callback) {
+        this._menu.addEventListener('change', callback)
     }
-    get filterValue() {
+    get value() {
         return this.currentFilterValue
     }
 }
