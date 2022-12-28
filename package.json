@@ -1,0 +1,38 @@
+{
+  "name": "front-end-fisheye",
+  "version": "1.0.0",
+  "description": "Rien à installer ici, il suffit d'ouvrir le fichier `index.html`.",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "npx webpack serve --config=webpack.dev.config.js",
+    "build-dev": "npx webpack --config=webpack.dev.config.js",
+    "build": "npx webpack --config=webpack.prod.config.js",
+    "lint": "npx eslint ./scripts/**/*.js",
+    "lintfix": "npx eslint ./scripts/**/*.js --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gsebdev/Front-End-Fisheye.git"
+  },
+  "author": "sebastien gault",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gsebdev/Front-End-Fisheye/issues"
+  },
+  "homepage": "https://github.com/gsebdev/Front-End-Fisheye#readme",
+  "devDependencies": {
+    "@babel/core": "^7.20.5",
+    "@babel/preset-env": "^7.20.2",
+    "babel-loader": "^9.1.0",
+    "eslint": "^8.30.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-n": "^15.6.0",
+    "eslint-plugin-promise": "^6.1.1",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.0",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "browserslist": "> 0.25%, not dead"
+}

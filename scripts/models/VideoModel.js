@@ -1,48 +1,46 @@
-class VideoModel extends MediaModel {
-    
-    constructor(video) {
-        super(video)
-        this._src = `assets/photographers/${video.photographerName}/${video.video}`
-    }
-    
-    get src() {
-        return this._src
-    }
+import MediaModel from './MediaModel'
+export default class VideoModel extends MediaModel {
+  constructor (video) {
+    super(video)
+    this._src = `assets/photographers/${video.photographerName}/${video.video}`
+  }
 
-    getCardDOM() {
-        const article = this.getDefaultCardDOM()
+  get src () {
+    return this._src
+  }
 
-        const video = document.createElement('video')
-        video.className = 'media-card__media'
-        video.title = 'play video ' + this._title
-        const source = document.createElement('source')
-        source.src = this._src
-        source.type = 'video/mp4'
-        video.append(source)
+  getCardDOM () {
+    const article = this.getDefaultCardDOM()
 
-        const mediaContainer = article.querySelector('.media-card__media-container')
-        mediaContainer.setAttribute('aria-label', 'play video ' + this._title )
-        mediaContainer.classList.add('video')
-        mediaContainer.append(video)
+    const video = document.createElement('video')
+    video.className = 'media-card__media'
+    video.title = 'play video ' + this._title
+    const source = document.createElement('source')
+    source.src = this._src
+    source.type = 'video/mp4'
+    video.append(source)
 
-        return article
+    const mediaContainer = article.querySelector('.media-card__media-container')
+    mediaContainer.setAttribute('aria-label', 'play video ' + this._title)
+    mediaContainer.classList.add('video')
+    mediaContainer.append(video)
 
-    }
-    getMediaDOM() {
-        const video = document.createElement('video')
-        video.controls = true
-        video.autoplay = true
-        video.muted = true
-        video.className = 'photograph-media'
-        video.title = this._title
+    return article
+  }
 
-        const source = document.createElement('source')
-        source.src = this._src
-        source.type = 'video/mp4'
-        video.append(source)
+  getMediaDOM () {
+    const video = document.createElement('video')
+    video.controls = true
+    video.autoplay = true
+    video.muted = true
+    video.className = 'photograph-media'
+    video.title = this._title
 
-        return video
-    }
-    
+    const source = document.createElement('source')
+    source.src = this._src
+    source.type = 'video/mp4'
+    video.append(source)
 
+    return video
+  }
 }

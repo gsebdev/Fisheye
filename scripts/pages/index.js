@@ -1,18 +1,19 @@
-    
-    async function displayData(photographers) {
-        const photographersSection = document.querySelector(".photographer_section");
+import { PhotographerFactory } from '../factories/PhotographerFactory'
+import getPhotographers from '../api/api'
 
-        photographers.forEach((photographer) => {
-            const photographerFactory = new PhotographerFactory(photographer);
-            photographersSection.appendChild(photographerFactory.getDOM());
-        });
-    };
+async function displayData (photographers) {
+  const photographersSection = document.querySelector('.photographer_section')
 
-    async function init() {
-        // Récupère les datas des photographes
-        const { photographers } = await getPhotographers()
-        displayData(photographers)
-    };
-    
-    init();
-    
+  photographers.forEach((photographer) => {
+    const photographerFactory = new PhotographerFactory(photographer)
+    photographersSection.appendChild(photographerFactory.getDOM())
+  })
+};
+
+async function init () {
+  // Récupère les datas des photographes
+  const { photographers } = await getPhotographers()
+  displayData(photographers)
+};
+
+init()
