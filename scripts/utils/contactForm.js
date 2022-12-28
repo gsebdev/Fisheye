@@ -29,19 +29,24 @@ export default class ContactForm {
 
   open () {
     this.reset()
+    this._sent = false
     const modal = document.querySelector('#' + this._modalID)
     modal.classList.add('open')
     modal.style.top = window.scrollY + 'px'
     modal.querySelector('.modal').focus()
     document.body.style.overflow = 'hidden'
+    this._formEl.style.height = 'auto'
   }
 
   reset () {
     this._formEl.querySelectorAll('input:not([type=submit]), textarea').forEach(input => {
       input.value = ''
+      this.hideError(input.parentElement)
     })
     this._formEl.classList.remove('sending', 'sending--success')
-    this._formEl.querySelector('*[type=submit]').textContent = 'Envoyer'
+    this._submitButton.textContent = 'Envoyer'
+    this._submitButton.removeAttribute('aria-describedby')
+    this._submitButton.setAttribute('aria-label', 'Envoyer')
   }
 
   handleKeydownEvent (e) {
@@ -63,7 +68,7 @@ export default class ContactForm {
     e.preventDefault()
 
     if (this._sent === true) {
-      this.close()
+      this.close(e)
     } else {
       if (this.validateAllData()) {
         this.send(this._data)
@@ -129,19 +134,25 @@ export default class ContactForm {
   }
 
   displayError (el, errorMsg) {
-    el.setAttribute('data-error', errorMsg)
-    el.setAttribute('data-error-visible', true)
+    el.setAttribute('aria-invalid', true)
+    el.setAttribute('aria-description', errorMsg)
+    el.querySelector('input, textarea').setAttribute('aria-invalid', true)
+    el.querySelector('input, textarea').setAttribute('aria-description', errorMsg)
+    this._submitButton.setAttribute('aria-description', 'Envoi impossible, le formulaire contient des erreurs')
   }
 
   hideError (el) {
-    el.setAttribute('data-error-visible', false)
+    el.removeAttribute('aria-invalid', false)
+    el.removeAttribute('aria-description', '')
+    el.querySelector('input, textarea').removeAttribute('aria-invalid', false)
+    el.querySelector('input, textarea').removeAttribute('aria-description', '')
+    this._submitButton.removeAttribute('aria-description')
   }
 
   displayLoading () {
-    const submitBtn = this._formEl.querySelector('*[type=submit]')
-
     this._formEl.classList.add('sending')
-    submitBtn.textContent = 'Envoi...'
+    this._submitButton.textContent = 'Envoi...'
+    this._submitButton.setAttribute('aria-label', 'Envoi de votre message')
   }
 
   displaySuccessMsg (msg) {
@@ -154,6 +165,8 @@ export default class ContactForm {
     this._formEl.style.height = formHeight + 'px'
 
     submitBtn.textContent = 'Fermer'
+    submitBtn.setAttribute('aria-label', 'Close contact form')
+    submitBtn.setAttribute('aria-describedby', 'modal-contact-success-msg')
   }
 
   send (data) {

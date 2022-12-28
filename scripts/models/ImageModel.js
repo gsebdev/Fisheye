@@ -21,6 +21,7 @@ export default class ImageModel extends MediaModel {
     image.className = 'media-card__media'
     image.src = this._thumbSrc
     image.alt = this._title + ', closeup view'
+    image.setAttribute('aria-describedby', this._id + '-likes')
 
     article.querySelector('.media-card__media-container').append(image)
 

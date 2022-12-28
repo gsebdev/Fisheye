@@ -65,6 +65,7 @@ export default class MediaModel {
     icon.setAttribute('role', 'img')
     likes.className = 'media-card__likes'
     likes.textContent = this._likes
+    likes.id = this._id + '-likes'
     likes.append(icon)
     this._liked === true ? likes.setAttribute('data-liked', true) : likes.setAttribute('data-liked', false)
     likes.addEventListener('click', () => {

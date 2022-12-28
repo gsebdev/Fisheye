@@ -381,8 +381,8 @@ main {
     font-size: 36px;
     height: 170px
 }
-.contact-form > .form-data[data-error-visible=true]::after{
-    content: attr(data-error);
+.contact-form > .form-data[aria-invalid=true]::after{
+    content: attr(aria-description);
     color: #660000;
     font-size: 22px;
     display: block;
@@ -391,11 +391,11 @@ main {
     text-align: right;
     margin-top: 5px;
 }
-.contact-form > .form-data[data-error-visible=true] input, form > div[data-error-visible=true] textarea {
+.contact-form > .form-data input[aria-invalid=true], form > div[aria-invalid=true] textarea {
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.267);
     background-color: #ffcfcf;
 }
-.contact-form > .form-data[data-error-visible=true] label {
+.contact-form > .form-data[aria-invalid=true] label {
     color: #660000;
 }
 .contact-form.sending--success > .form-data {

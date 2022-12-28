@@ -18,7 +18,7 @@
           <div class="sort-filter">
             <span class="sort-filter__text" id="filter-label">Trier par</span>
             <div class="sort-filter__menu">
-              <button class="sort-filter__button btn" aria-labelledby="filter-label" aria-haspopup="listbox" aria-expanded="false">Popularité<span class="sort-filter__dropdown-icon"></span></button>
+              <button id="sort-filter-1-btn" class="sort-filter__button btn" aria-labelledby="filter-label sort-filter-1-btn" aria-haspopup="listbox" aria-expanded="false">Popularité<span class="sort-filter__dropdown-icon"></span></button>
               <ul class="sort-filter__list" role="listbox" aria-activedescendant="filter-opt1" aria-labelledby="filter-label">
                 <li role="option" tabindex="0" id="filter-opt1" data-value="likes" aria-selected="true" class="sort-filter__filter">Popularité</li>
                 <li role="option" tabindex="0" id="filter-opt2" data-value="date" aria-selected="false" class="sort-filter__filter">Date</li>
@@ -52,8 +52,8 @@
             <label id="contact-message-label" for="contact-message">Votre message</label>
             <textarea aria-labelledby='contact-message-label' name="message" id="contact-message" cols="30" rows="10" required></textarea>
           </div>
-          <div class="success-msg"></div>
-          <button aria-label="Send" class="contact_button" type="submit">Envoyer</button>
+          <div id="modal-contact-success-msg" class="success-msg"></div>
+          <button aria-label="Envoyer" class="contact_button" type="submit">Envoyer</button>
           <button class="contact_modal__close" aria-label="Close Contact form"><img src="assets/icons/close.svg" alt=""></button>
           <div class="loader"></div>
 				</form>

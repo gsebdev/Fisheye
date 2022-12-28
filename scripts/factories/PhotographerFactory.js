@@ -153,7 +153,7 @@ class SinglePhotographerModel extends PhotographerModel {
     const button = document.createElement('button')
     button.className = 'btn'
     button.setAttribute('data-target', 'contact_modal')
-    button.setAttribute('aria-label', 'Contact Me')
+    button.setAttribute('aria-label', 'Contactez-moi')
     button.textContent = 'Contactez-moi'
 
     const portrait = document.createElement('img')

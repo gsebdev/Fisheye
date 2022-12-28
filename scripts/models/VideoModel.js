@@ -15,6 +15,7 @@ export default class VideoModel extends MediaModel {
     const video = document.createElement('video')
     video.className = 'media-card__media'
     video.title = 'play video ' + this._title
+    video.setAttribute('aria-describedby', this._id + '-likes')
     const source = document.createElement('source')
     source.src = this._src
     source.type = 'video/mp4'

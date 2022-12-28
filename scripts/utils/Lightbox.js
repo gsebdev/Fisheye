@@ -138,10 +138,8 @@ export default class Lightbox {
     // récupération du DOM du média à afficher
     const mediaDOM = this._medias[this._currentMediaIndex].getMediaDOM()
     const mediaTitle = document.createElement('p')
-    mediaTitle.id = 'lightbox-media-title'
     mediaTitle.textContent = this._medias[this._currentMediaIndex].title
     mediaDOM.tabIndex = 0
-    mediaDOM.setAttribute('aria-labelledby', 'lightbox-dialog lightbox-media-title')
     // mise en mode loading de la lightbox
     this._lightboxDOM.classList.add('loading')
     // Pause permettant la transition css (fade)
