@@ -8,6 +8,7 @@ export default async function getPhotographers (id = null) {
       }
     })
     .then(data => {
+      // si un id a été fourni, récupération des médias du photographe et un nouvel objet photographe contenant aussi les medias est retourné, sinon pas de mise en forme des données
       if (id) {
         const photographerData = data.photographers.find(photographer => photographer.id === parseInt(id))
         photographerData.medias = data.media.filter(media => media.photographerId === parseInt(id))

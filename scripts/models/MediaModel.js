@@ -10,6 +10,7 @@ export default class MediaModel {
     this._likes = media.likes
     this._date = media._date
     this._changeCallbackFunc = null
+    // récupération du like utilisateur dans le local storage pour l'afficher dans le DOM
     try {
       this._liked = JSON.parse(localStorage.getItem(this._id))
       if (this._liked === true) {

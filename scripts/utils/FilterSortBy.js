@@ -8,6 +8,7 @@ export default class FilterSortBy {
     this._filters = this._menu.querySelectorAll('.sort-filter__filter')
     this._button = document.querySelector('.sort-filter__button')
 
+    // ajout des event listener pour la navigation accessible dans le dropdown
     this._eventListeners = ['keydown', 'click']
     this._eventListeners.forEach(event => {
       this._filters.forEach(filter => filter.addEventListener(event, this.handleFiltersEvent.bind(this)))
@@ -104,6 +105,7 @@ export default class FilterSortBy {
     this.currentFilterValue = newFilterElement.getAttribute('data-value')
     this._button.childNodes[0].textContent = this._currentFilterElement.textContent
     this.closeFilterMenu()
+    // Event: change pour indique que le filtre de tri a changé
     this._menu.dispatchEvent(new Event('change'))
   }
 

@@ -12,13 +12,15 @@ export default class Lightbox {
     this._lightboxDOM = this.createDOM()
   }
 
+  // methode permettant d'afficher la lightbox
   async init () {
     this.close()
     document.querySelector('main').appendChild(this._lightboxDOM)
     this.disableScroll()
+    // insertion du média sélectionné lors du click d'ouverture
     await this.insertMedia(this._medias[this._currentMediaIndex].getMediaDOM())
     this._lightboxDOM.classList.remove('loading')
-
+    // ajout des event listeners pour la navigation de la lightbox
     this._eventListeners.forEach(event => {
       this._lightboxDOM.addEventListener(event, this.handleLightboxEvent.bind(this))
     })
@@ -28,18 +30,22 @@ export default class Lightbox {
     e.preventDefault()
     e.stopImmediatePropagation()
     switch (e.which) {
+      // Escape
       case 27:
         this.close()
         document.getElementById(this._selectedId).querySelector('a').focus()
         break
+        // fleche de droite
       case 39:
         this.next()
         break
+        // fleche de gauche
       case 37:
         this.prev()
         break
+        // Tab (le focus reste en boucle dans les elements de navigation de la lightbox)
       case 9: {
-        const interactiveEl = this._lightboxDOM.querySelectorAll('a, img, video, button')
+        const interactiveEl = this._lightboxDOM.querySelectorAll('a:not(.disabled), img, video, button')
         const focusEl = this._lightboxDOM.querySelector(':focus')
         if (focusEl !== null) {
           const index = Array.from(interactiveEl).findIndex(el => el === focusEl)
@@ -61,10 +67,12 @@ export default class Lightbox {
         }
         break
       }
+      // Click gauche ou Enter
       case 1:
       case 13: {
         const el = e.target
         switch (el.className) {
+          // click n'importe où dans l'image -> moitié gauche = image précédente / moitié droite = image suivante
           case 'lightbox__wrapper':
           case 'photograph-media': {
             e.offsetX < (el.offsetWidth / 2) ? this.prev() : this.next()
@@ -125,20 +133,27 @@ export default class Lightbox {
     return lightbox
   }
 
+  // A chaque changement de média cette méthode est appelée
   async insertMedia () {
+    // récupération du DOM du média à afficher
     const mediaDOM = this._medias[this._currentMediaIndex].getMediaDOM()
     const mediaTitle = document.createElement('p')
     mediaTitle.id = 'lightbox-media-title'
     mediaTitle.textContent = this._medias[this._currentMediaIndex].title
     mediaDOM.tabIndex = 0
     mediaDOM.setAttribute('aria-labelledby', 'lightbox-dialog lightbox-media-title')
+    // mise en mode loading de la lightbox
     this._lightboxDOM.classList.add('loading')
+    // Pause permettant la transition css (fade)
     await new Promise((resolve) => setTimeout(resolve, 200))
+    // remplacement du média dans le container
     this._lightboxDOM.querySelector('.lightbox__media-container').replaceChildren(mediaDOM)
     this._lightboxDOM.querySelector('.lightbox__media-container').appendChild(mediaTitle)
+    // pause permettant au média de s'afficher correctement
     await new Promise((resolve) => setTimeout(resolve, 100))
+    // focus sur le média
     mediaDOM.focus()
-
+    // gestion de l'affichage des flèche de naviagation (début et fin de la liste des médias)
     if (this._currentMediaIndex === this._medias.length - 1) {
       this._lightboxDOM.querySelector('.lightbox__next').classList.add('disabled')
     } else if (this._currentMediaIndex < this._medias.length - 1 && this._currentMediaIndex > 0) {
@@ -147,6 +162,7 @@ export default class Lightbox {
     } else {
       this._lightboxDOM.querySelector('.lightbox__previous').classList.add('disabled')
     }
+    // enlever le mode loading
     this._lightboxDOM.classList.remove('loading')
   }
 
@@ -156,6 +172,7 @@ export default class Lightbox {
       lightbox.remove()
     })
     this.enableScroll()
+    // redirection du focus sur le media qui avait été clické lors de l'ouverture de la lightbox
     document.getElementById(this._selectedId).querySelector('a').focus()
   }
 

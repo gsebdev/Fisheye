@@ -4,6 +4,7 @@ class PhotographerFactory {
      * @param {Object} data
      */
   constructor (data) {
+    // si l'objet 'data' contient des médias cela veut dire que la page photographe.html est active, autrement c'est la page index.html (cf: api.js)
     if (data.medias) {
       return new SinglePhotographerModel(data)
     } else {
@@ -181,6 +182,7 @@ class SinglePhotographerModel extends PhotographerModel {
     return section
   }
 
+  // methode permettant de mettre à jour le total des likes du photographe (utile lorsque un like sur un média est détecté)
   updateLikes () {
     const likes = document.querySelector('.photograph-header__likes')
     likes.childNodes[0].textContent = this.likes
