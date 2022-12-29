@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr-FR">
   <head>
-    <link href="css/style.css" rel="stylesheet" type="text/css" />
-    <link href="css/photographer.css" rel="stylesheet" type="text/css" />
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link href="css/photographer.css" rel="stylesheet" type="text/css">
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="assets/favicon.png">
     <link href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap" rel="stylesheet">
@@ -14,7 +14,7 @@
   </header>
     <main id="main">
       <article>
-        <section class="photograph-medias">
+        <div class="photograph-medias">
           <div class="sort-filter">
             <span class="sort-filter__text" id="filter-label">Trier par</span>
             <div class="sort-filter__menu">
@@ -22,12 +22,12 @@
               <ul class="sort-filter__list" role="listbox" aria-activedescendant="filter-opt1" aria-labelledby="filter-label">
                 <li role="option" tabindex="0" id="filter-opt1" data-value="likes" aria-selected="true" class="sort-filter__filter">Popularité</li>
                 <li role="option" tabindex="0" id="filter-opt2" data-value="date" aria-selected="false" class="sort-filter__filter">Date</li>
-                <li role="option" tabindex="0" id="filter-opt2" data-value="title" aria-selected="false" class="sort-filter__filter">Titre</li>
+                <li role="option" tabindex="0" id="filter-opt3" data-value="title" aria-selected="false" class="sort-filter__filter">Titre</li>
               </ul>
             </div>
           </div>
           <div class="photograph-medias__wrapper"></div>
-        </section>
+        </div>
       </article>
     </main>
     <div id="contact_modal">
@@ -35,14 +35,14 @@
 				<header>
           <h2 id="contact-modal-title">Contactez-moi </h2>
         </header>
-				<form action="" method="post" class="contact-form">
+				<form method="post" class="contact-form">
 					<div class="form-data">
 						<label id="contact-firstname-label" for="contact-firstname">Prénom</label>
 						<input aria-labelledby='contact-firstname-label' type="text" id="contact-firstname" name="firstname" required>
 					</div>
           <div class="form-data">
 						<label id="contact-lastname-label" for="contact-lastname">Nom</label>
-						<input aria-labelledby='contact-lastname-label' type="text" id="contact-lastname" name="lastname"required>
+						<input aria-labelledby='contact-lastname-label' type="text" id="contact-lastname" name="lastname" required>
 					</div>
           <div class="form-data">
 						<label id="contact-email-label" for="contact-email">Email</label>

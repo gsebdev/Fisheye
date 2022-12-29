@@ -129,7 +129,7 @@ class SinglePhotographerModel extends PhotographerModel {
   }
 
   getDOM () {
-    const section = document.createElement('section')
+    const section = document.createElement('div')
     section.className = 'photograph-header'
 
     const textContainer = document.createElement('div')

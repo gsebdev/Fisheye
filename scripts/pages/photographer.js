@@ -17,7 +17,7 @@ class PhotographerPage {
     // méthode permettant de générer le DOM du header du photographe
     this._header = this._photographerFactory.getDOM()
     // insertion du DOM du header photographe dans le html
-    document.querySelector('main').prepend(this._header)
+    document.querySelector('main > article').prepend(this._header)
     // initialisation du filtre de tri et du formulaire de contact
     this._filter = new FilterSortBy()
     this._contactForm = new ContactForm('contact_modal', this._photographerFactory.name)

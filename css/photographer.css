@@ -329,7 +329,7 @@ main {
 .modal header {
     align-items: flex-start;
     justify-content: space-between;
-    width: calc(100% -100px);
+    width: calc(100% - 100px);
     height: unset;
     padding-left: 0;
 }
