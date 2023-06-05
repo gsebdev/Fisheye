@@ -1,6 +1,10 @@
-# Base de code du projet P6 - Parcours Front-end
+# FishEye
 
-## Démarrer le projet
+## Description
+this project was carried out as part of an OpenClassrooms training course.
+This is a freelance photographers platform that displays photographers list and photographer work.
 
-Rien à installer ici, il suffit d'ouvrir le fichier `index.html`.
+## Features
+## Demo
+[See Demo](gsebdev.github.io/Fisheye/)
 
