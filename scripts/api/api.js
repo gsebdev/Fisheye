@@ -1,5 +1,5 @@
 export default async function getPhotographers (id = null) {
-  return fetch('../../data/photographers.json')
+  return fetch('data/photographers.json')
     .then(res => {
       if (res.ok) {
         return res.json()
