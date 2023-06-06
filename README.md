@@ -7,12 +7,12 @@ This project is not responsive, only works on desktops.\
 No Framework has been used, only JS.
 
 ## Features
-* fetch data from a json file (simulate to simulate an api)
+* fetch data from a json file (to simulate an api)
 * Use a Factory Method to create medias DOM & media cards DOM
 * Contact form with input validation
 * Pure JS lightbox with transition effects
 * Sort filter select to order the photographer medias
-* Use localStorage to store the user likes on the medias
+* User can like photographer medias, then photographer's total likes is updated, and localStorage is used to store the user likes on refresh
 ## Demo
 [See Demo](gsebdev.github.io/Fisheye/)
 
