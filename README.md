@@ -4,7 +4,7 @@
 This project was carried out as part of an OpenClassrooms training course.\
 This is a pure JS freelance photographers platform that displays a fetched photographers list and photographer work & details.\
 This project is not responsive, only works on desktops.\
-No Framework has been used, only JS.\
+No Framework has been used, only JS.
 
 ## Features
 * fetch data from a json file (simulate to simulate an api)
