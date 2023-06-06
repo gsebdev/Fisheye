@@ -4,8 +4,8 @@ module.exports = {
 
   mode: 'development',
   entry: {
-    index: './scripts/pages/index.js',
-    photographer: './scripts/pages/photographer.js'
+    index: './src/pages/index.js',
+    photographer: './src/pages/photographer.js'
 
   },
   output: {
