@@ -14,7 +14,7 @@ No Framework has been used, only JS.
 * Sort filter select to order the photographer medias
 * User can like photographer medias, then photographer's total likes is updated, and localStorage is used to store the user likes on refresh
 ## Demo
-[See Demo](gsebdev.github.io/Fisheye/)
+[See Demo](https://gsebdev.github.io/Fisheye/)
 
 ## Usage 
 ### Install dependencies
